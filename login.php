@@ -31,8 +31,9 @@
 			<div class="col-md-4"></div>
 			<div class="col-md-4 form-container">
 				<div class="row">
+					<img src="images/logo_esi.jpg" width="200" height="300" style="margin-left: 110px;" >
 					<div class=" col-4 col-md-4 col-md-4 offset-4 " style="margin-bottom: 3%;">
-						<img src="images/logo_esi.jpg" class="w-100 h-100">
+					
 					</div>
 					<div class=" col-12 col-md-12 col-sm-12">
 						<form action="" method="post">

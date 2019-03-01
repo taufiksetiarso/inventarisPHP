@@ -40,6 +40,43 @@
 		}
 
 	}
+	
+	
+	function loadTanggalBarang($dari,$sampai){
+		global $con;
+
+		$query = "SELECT A.IdBarang,A.NamaBarang,B.IdMerk, B.NamaMerk, 
+					A.JumlahBarang, C.IdKategori,C.NamaKategori,D.IdDivisi, D.NamaDivisi, A.TglMasuk
+					FROM barang A join merk B on A.IdMerk = B.IdMerk join 
+					kategori C on A.IdKategori = C.IdKategori
+					join divisi D on A.IdDivisi = D.IdDivisi WHERE (A.TglMasuk BETWEEN '".$dari."' AND '".$sampai."')ORDER BY A.TglMasuk Asc";
+		$result = mysqli_query($con,$query);
+		$hasil = [];
+		while ( $a = mysqli_fetch_assoc($result) ) {
+			$hasil[] = $a;
+		}
+		return $hasil;
+		
+		
+		
+	}
+	
+	
+	function loadTanggalMutasi($dari,$sampai){
+		global $con;
+
+		$query = "SELECT A.IdMutasiBarang,B.NamaBarang,D.NamaDivisi,A.divisiBaru,A.statusBarang,A.JumlahMutasiBarang,B.JumlahBarang,A.Keterangan,A.TanggalMutasi from data_mutasi_barang A join barang B on A.idBarang=B.IdBarang JOIN divisi D on B.IdDivisi=D.IdDivisi where (TanggalMutasi BETWEEN '".$dari."' AND '".$sampai."' )ORDER BY A.TanggalMutasi Asc";
+		$result = mysqli_query($con,$query);
+		$hasil = [];
+		while ( $a = mysqli_fetch_assoc($result) ) {
+			$hasil[] = $a;
+		}
+		return $hasil;
+		
+		
+		
+	}
+	
 	function loadUser(){
 		global $con;
 
@@ -120,6 +157,7 @@
 			return false;
 		}
 	}
+	
 	
 	function tambahMutasiBarang($idBarang,$divisiBaru,$statusBarang,$jumlahBarang,$keterangan,$tanggalMutasi){
 		global $con;
@@ -230,7 +268,8 @@
 			$cb=$_POST['idKat'];
 			$namaKategori=$_POST['namaKategori'];
 			$result=$con->query("update kategori set NamaKategori='$namaKategori' where IdKategori=$cb")or die($con->error);
-			header("Location:masterdata-kategori.php");
+			echo "<script>alert('Data Telah Update!!!');location = '/inventarisEdu/inventaris/masterdata-kategori.php';</script>";
+		
 		}
 		
 		if (isset($_GET['editMerk'])){
@@ -248,7 +287,7 @@
 			$cb=$_POST['idMerk'];
 			$namaMerk=$_POST['namaMerk'];
 			$result=$con->query("update merk set NamaMerk='$namaMerk' where IdMerk=$cb")or die($con->error);
-			header("Location:masterdata-merk.php");
+			echo "<script>alert('Data Telah Update!!!');location = '/inventarisEdu/inventaris/masterdata-merk.php';</script>";
 		}
 		
 		if (isset($_GET['editDivisi'])){
@@ -266,7 +305,7 @@
 			$cb=$_POST['idDivisi'];
 			$namaDivisi=$_POST['namaDivisi'];
 			$result=$con->query("update divisi set NamaDivisi='$namaDivisi ' where IdDivisi=$cb")or die($con->error);
-			header("Location:masterdata-divisi.php");
+			echo "<script>alert('Data Telah Update!!!');location = '/inventarisEdu/inventaris/masterdata-divisi.php';</script>";
 		}
 		
 		if (isset($_GET['editUser'])){
@@ -286,7 +325,7 @@
 			$email=$_POST['email'];
 			$password=$_POST['password'];
 			$result=$con->query("update user set email='$email',password='$password' where username='$cb'")or die($con->error);
-			header("Location:masterdata-user.php");
+			echo "<script>alert('Data Telah Update!!!');location = '/inventarisEdu/inventaris/masterdata-user.php';</script>";
 		}
 		
 	function hapusBarang($id){

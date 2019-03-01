@@ -5,8 +5,16 @@
 		header("Location:login.php");
 		exit;
 	}
-	$userActive=$_SESSION['username'];
-	$hasil = loadUser();
+	$hasil = loadDataMutasiBarang();
+	if( isset($_POST['btnSearch']) ){
+		if($_POST['txtTanggalDari']=='' && $_POST['txtTanggalSampai']==''){
+		echo "<script type='text/javascript'>alert('dari dan sampai tidak boleh kosong'); location = '/inventarisEdu/inventaris/laporan-mutasi-barang.php';</script>";
+		
+		}
+		$hasil = loadTanggalMutasi($_POST['txtTanggalDari'],$_POST['txtTanggalSampai']);
+	}
+
+	
 ?>
 
 
@@ -85,68 +93,77 @@
 				<div class="pull-right" style="padding-left:500px;padding-top:15px"> <span class="badge badge-primary"><font size="3" color="white">hai, <?php echo $_SESSION['username'];?></font></span></div>
 		</div>
 	</nav>
-	
-	<!--Content-->
-	<div class="container container-custom">
+	<div class="container container-custom" style="max-width: 1300px;">
 		<div class="row">
 			<div class="col-md-12">
-				<h3 >Divisi</h3>
-				<div class="pull-left" style="margin:15px;">
-				<a type="button" href="tambah-user.php"  class="btn btn-primary btn-block" pull-right><i class="fa fa-plus"></i> Tambah User</a>
-			</div>
+			
+				<h3>Data Barang</h3>
+				<div class="row">
+				
+				<div class="col-sm-8 form-inline"style="margin-bottom:30px;margin-top:30px;">
+				<form action="" method="post" class="form-inline">
+				<label>Periode dari</label>&nbsp;&nbsp;
+				
+				
+				<input type="date" name="txtTanggalDari" id="txtTanggalDari" class="form-control" style="width:30%;">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+				<label>Sampai</label>&nbsp;&nbsp;  
+				<input type="date" name="txtTanggalSampai" id="txtTanggalSampai" class="form-control" style="width:30%;">
+						&nbsp;&nbsp;	<button class="btn btn-lg btn-secondary "  name="btnSearch"><i class="fa fa-search"></i> </button>
+			     </form>
+				</div>
+				
+				<div class="col-sm-1">
+				
+				</div>
+				<div class="col-sm-3">
+				<?php	if( isset($_POST['btnSearch']) ):?>
+					<a href="simpan-print-mutasi-barang.php?dari=<?php echo $_POST['txtTanggalDari']?>&sampai=<?php echo $_POST['txtTanggalSampai']?>" class="btn btn-primary " style="margin-bottom:30px;margin-top:30px;"><i class="fa fa-print"></i> Simpan</a>
+			
+			<?php endif; ?>
+					
+					<?php	if( !isset($_POST['btnSearch']) ):?>
+					<a href="simpan-print-mutasi-barang.php" class="btn btn-primary " style="margin-bottom:30px;margin-top:30px;"><i class="fa fa-print"></i> Simpan</a>
+					<?php endif; ?>&nbsp;
+			<?php	if( isset($_POST['btnSearch']) ):?>
+					<a href="print-mutasi-barang.php?dari=<?php echo $_POST['txtTanggalDari']?>&sampai=<?php echo $_POST['txtTanggalSampai']?>" class="btn btn-info " style="margin-bottom:30px;margin-top:30px;"><i class="fa fa-print"></i> Cetak</a>
+			
+			<?php endif; ?>
+					
+					<?php	if( !isset($_POST['btnSearch']) ):?>
+					<a href="print-mutasi-barang.php" class="btn btn-info " style="margin-bottom:30px;margin-top:30px;"><i class="fa fa-print"></i> Cetak</a>
+					<?php endif; ?>
+				</div>
+				</div>
 				<div class="table-responsive">
 					<table class="table text-center">
-					  <thead class="thead-light">
+					  <thead>
 					    <tr>
-					      
-							<th scope="col">User</th>
-							<th scope="col">Email</th>
-						     <th scope="col">Password</th>
-						     <th scope="col">Aksi</th>
+					      <th scope="col">No</th>
+					      <th scope="col">Nama Barang</th>
+					      <th scope="col">Lokasi Awal</th>
+					      <th scope="col">Lokasi Baru</th>
+					      <th scope="col">Status Barang</th>
+					      <th scope="col">Jumlah Barang</th>
+					      <th scope="col">Sisa Barang</th>
+					      <th scope="col">Keterangan</th>
+						  <th scope="col">Tanggal Mutasi</th>
+						
 					    </tr>
 					  </thead>
 					  <tbody>
 					    <?php for($i = 0; $i < count($hasil); $i++) : ?>
-						 
 					    	<tr>
-						     <?php if ($userActive!=$hasil[$i]['Username']): ?>     
-						      
-						      <td><?php echo $hasil[$i]['Username']; ?></td>
-							 
-							 <?php if ($username!=$hasil[$i]['Username']): ?>  
-								<td><?php echo $hasil[$i]['Email']; ?></td>
-								<td><?php echo $hasil[$i]['password']; ?></td>								
-								<td><a href="masterdata-user.php?editUser=<?php echo $hasil[$i]['Username']; ?>" class="btn btn-success btn-sm"	>Edit</a> | <a onclick="return confirm('Apakah Yakin Ingin Menghapus?')" class="btn btn-Danger btn-sm" href="functions.php?deleteUser=<?php echo $hasil[$i]['Username']; ?>">Hapus</a></td>
-							<?php endif; ?>
-							
-							
-							 <?php if ($username==$hasil[$i]['Username']): ?>   
-							 <form method="POST" action="functions.php"> 
-								
-								<input type="hidden" name="username" value="<?php echo $username ?>"  class="form-control" >
-							
-								<td style="width:160px;">  <input type="text" value="<?php echo $email ?>" name="email" class="form-control" ></td>
-								<td style="width:160px;">  <input type="text" value="<?php echo $password ?>" name="password" class="form-control" ></td>
-								
-								
-								<td><button name="updateUser" class="btn btn-warning btn-sm">Update</button> 
-							
-							</form>
-							<?php endif; ?>
-							  
-							  
-							  
-						 	
-							<?php endif; ?>
-							
-							
-							 
-							
-							 
-
-						
-							</tr>
-							
+						      <th scope="row"><?php echo $i+1; ?></th>
+						      <td><?php echo $hasil[$i]['NamaBarang']; ?></td>
+						      <td><?php echo $hasil[$i]['NamaDivisi']; ?></td>
+						      <td><?php echo $hasil[$i]['divisiBaru'];  ?></td>
+						      <td><?php echo $hasil[$i]['statusBarang']; ?></td>
+						      <td><?php echo $hasil[$i]['JumlahMutasiBarang']; ?></td>
+						      <td><?php echo $hasil[$i]['JumlahBarang']; ?></td>
+							  <td><?php echo $hasil[$i]['Keterangan']; ?></td>
+						      <td><?php echo $hasil[$i]['TanggalMutasi']; ?></td>
+						     	</tr>
 					    <?php endfor; ?>
 					  </tbody>
 					</table>
@@ -154,23 +171,7 @@
 			</div>
 		</div>
 	</div>
-	<!--Content-->
-	
-
 	<script type="text/javascript" src="boostrap/popper.js/1.14.0/umd/popper.min.js"></script>
 	<script type="text/javascript" src="boostrap/jquery/jquery-3.2.1.slim.min.js"></script>
-	<script type="text/javascript" src="boostrap/jquery/jquery.js"></script>
 	<script type="text/javascript" src="boostrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			
-			$('#simpanDivisi').click(function(){
-				$.ajax({url:'tambah_divisi.php?value='+$('#txtNamaDivisi').val()}).done(function(){
-					loadUser();
-				});
-			});
-
-	
-		});
-	</script>
 </body>

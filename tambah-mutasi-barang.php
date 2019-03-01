@@ -10,8 +10,8 @@
 	
 	if( isset($_POST['btnSubmit']) ){
 		if( tambahMutasiBarang($_POST['idBarang'],$_POST['ddlDivisi'],$_POST['txtStatusBaru'],$_POST['txtjumlahBarang'],$_POST['txtKeterangan'],$_POST['txtTanggalMutasi']) ){
-			echo "<script>alert('Berhasil Menambahkan Mutasi Barang!!!')</script>";
-			header("Location:data-mutasi-barang.php");
+			echo "<script>alert('Berhasil Menambahkan Mutasi Barang!!!'); location = '/inventarisEdu/inventaris/data-mutasi-barang.php';</script>";
+			
 		}
 		else{
 			echo "<script>alert('Gagal Menambahkan Mutasi Barang!!!')</script>";
@@ -31,7 +31,7 @@
 <body class="bg">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a href="#" class="navbar-brand">
-			<img src="images/logo_pesonaedu.png" width="100" height="50" class="d-inline-block align-top">
+			<img src="images/logo_pesonaedu.png" width="100" height="63" class="d-inline-block align-top">
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#content" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     		<span class="navbar-toggler-icon"></span>
@@ -58,14 +58,25 @@
 			          <a class="dropdown-item" href="ubah_password.php"><i class="fa fa-lock"></i> Ubah Password</a>
 			        </div>
 		      </li>
+			   <ul class="navbar-nav">
+				<li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          Mutasi Barang
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			        	<a class="dropdown-item" href="data-mutasi-barang.php"><i class="fa fa-list-alt"></i> Data barang</a>
+			          <a class="dropdown-item" href="tambah-mutasi-barang.php"><i class="fa fa-plus"></i> Tambah Mutasi Barang </a>
+			        </div>
+		      </li>
+			</ul>
 			  <ul class="navbar-nav">
 				<li class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			          Laporan
 			        </a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			        	<a class="dropdown-item" href="laporan-barang.php"><i class="fa fa-sign-list"></i> Laporan barang</a>
-			          <a class="dropdown-item" href="laporan-mutasi.php"><i class="fa fa-list"></i> Laporan Mutasi</a>
+			        	<a class="dropdown-item" href="laporan-barang.php"><i class="fa fa-list-alt"></i> Laporan barang</a>
+			          <a class="dropdown-item" href="laporan-mutasi-barang.php"><i class="fa fa-list"></i> Laporan Mutasi</a>
 			        </div>
 		      </li>
 			</ul>
@@ -77,11 +88,12 @@
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 			        	<a class="dropdown-item" href="masterdata-kategori.php"><i class="fa fa-list"></i> Kategori</a>
 			          <a class="dropdown-item" href="masterdata-merk.php"><i class="fa fa-briefcase"></i> Merk</a>
-					   <a class="dropdown-item" href="masterdata-divisi.php"><i class="fa fa-map-marker"></i> divisi</a>
+					  <a class="dropdown-item" href="masterdata-divisi.php"><i class="fa fa-map-marker"></i> divisi</a>
 					  <a class="dropdown-item" href="masterdata-user.php"><i class="fa fa-user"></i> User</a>
 			        </div>
 		      </li>
 			</ul>
+				<div class="pull-right" style="padding-left:500px;padding-top:15px"> <span class="badge badge-primary"><font size="3" color="white">hai, <?php echo $_SESSION['username'];?></font></span></div>
 		</div>
 	</nav>
 	<div class="container container-custom">

@@ -7,9 +7,10 @@
 	}
 
 	$hasil = loadDivisiItem();
+	
 ?>
 
-
+	
 <html>
 <head>
 	<title>Edukasi Star Indonesia</title>
@@ -20,7 +21,7 @@
 <body class="bg">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a href="#" class="navbar-brand">
-			<img src="images/logo_pesonaedu.png" width="100" height="100" class="d-inline-block align-top">
+			<img src="images/logo_pesonaedu.png" width="100" height="63" class="d-inline-block align-top">
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#content" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     		<span class="navbar-toggler-icon"></span>
@@ -47,6 +48,17 @@
 			          <a class="dropdown-item" href="ubah_password.php"><i class="fa fa-lock"></i> Ubah Password</a>
 			        </div>
 		      </li>
+			   <ul class="navbar-nav">
+				<li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          Mutasi Barang
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			        	<a class="dropdown-item" href="data-mutasi-barang.php"><i class="fa fa-list-alt"></i> Data barang</a>
+			          <a class="dropdown-item" href="tambah-mutasi-barang.php"><i class="fa fa-plus"></i> Tambah Mutasi Barang </a>
+			        </div>
+		      </li>
+			</ul>
 			  <ul class="navbar-nav">
 				<li class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,7 +66,7 @@
 			        </a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 			        	<a class="dropdown-item" href="laporan-barang.php"><i class="fa fa-list-alt"></i> Laporan barang</a>
-			          <a class="dropdown-item" href="laporan-mutasi.php"><i class="fa fa-list"></i> Laporan Mutasi</a>
+			          <a class="dropdown-item" href="laporan-mutasi-barang.php"><i class="fa fa-list"></i> Laporan Mutasi</a>
 			        </div>
 		      </li>
 			</ul>
@@ -71,7 +83,7 @@
 			        </div>
 		      </li>
 			</ul>
-				<div class="pull-right" style="padding-left:650px;padding-top:15px"> <span class="badge badge-primary"><font size="3" color="white">hai, <?php echo $_SESSION['username'];?></font></span></div>
+				<div class="pull-right" style="padding-left:500px;padding-top:15px"> <span class="badge badge-primary"><font size="3" color="white">hai, <?php echo $_SESSION['username'];?></font></span></div>
 		</div>
 	</nav>
 	
@@ -86,6 +98,12 @@
 				<div class="table-responsive">
 					<table class="table text-center">
 					  <thead class="thead-light">
+					  
+					   <tr>
+					      <th scope="col">Id Divisi</th>
+					      <th scope="col">Nama Divisi</th>
+					      <th scope="col">Aksi</th>
+					    </tr>
 					   <?php for($i = 0; $i < count($hasil); $i++) : ?>
 					    	<tr>
 						     
@@ -93,7 +111,7 @@
 						    
 							<?php if ($idDivisi!=$hasil[$i]['IdDivisi']): ?>  
 								<td><?php echo $hasil[$i]['NamaDivisi']; ?></td>			   
-								<td><a href="masterdata-Divisi.php?editDivisi=<?php echo $hasil[$i]['IdDivisi']; ?>" class="btn btn-success btn-sm"	>Edit</a> | <a onclick="return confirm('Apakah Yakin Ingin Menghapus?')" class="btn btn-Danger btn-sm" href="functions.php?deleteDivisi=<?php echo $hasil[$i]['IdDivisi']; ?>">Hapus</a></td>
+								<td><a href="masterdata-Divisi.php?editDivisi=<?php echo $hasil[$i]['IdDivisi']; ?>" class="btn btn-success btn-sm"	>Edit</a> | <a onclick="return confirm('Apakah Yakin Ingin Menghapus Divisi Tersebut Dari Semua Table? ')" class="btn btn-Danger btn-sm" href="functions.php?deleteDivisi=<?php echo $hasil[$i]['IdDivisi']; ?>">Hapus</a></td>
 							<?php endif; ?>
 							 
 							 <?php if ($idDivisi==$hasil[$i]['IdDivisi']): ?>   

@@ -5,8 +5,16 @@
 		header("Location:login.php");
 		exit;
 	}
-
 	$hasil = loadBarang();
+	if( isset($_POST['btnSearch']) ){
+		if($_POST['txtTanggalDari']=='' && $_POST['txtTanggalSampai']==''){
+		echo "<script type='text/javascript'>alert('dari dan sampai tidak boleh kosong'); location = '/inventarisEdu/inventaris/laporan-barang.php';</script>";
+		
+		}
+		$hasil = loadTanggalBarang($_POST['txtTanggalDari'],$_POST['txtTanggalSampai']);
+	}
+
+	
 ?>
 
 
@@ -20,7 +28,7 @@
 <body class="bg">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a href="#" class="navbar-brand">
-			<img src="images/logo_pesonaedu.png" width="100" height="100" class="d-inline-block align-top">
+			<img src="images/logo_pesonaedu.png" width="100" height="63" class="d-inline-block align-top">
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#content" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     		<span class="navbar-toggler-icon"></span>
@@ -65,7 +73,7 @@
 			        </a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 			        	<a class="dropdown-item" href="laporan-barang.php"><i class="fa fa-list-alt"></i> Laporan barang</a>
-			          <a class="dropdown-item" href="laporan-mutasi.php"><i class="fa fa-list"></i> Laporan Mutasi</a>
+			          <a class="dropdown-item" href="laporan-mutasi-barang.php"><i class="fa fa-list"></i> Laporan Mutasi</a>
 			        </div>
 		      </li>
 			</ul>
@@ -88,7 +96,46 @@
 	<div class="container container-custom">
 		<div class="row">
 			<div class="col-md-12">
+			
 				<h3>Data Barang</h3>
+				<div class="row">
+				
+				<div class="col-sm-8 form-inline"style="margin-bottom:30px;margin-top:30px;">
+				<form action="" method="post" class="form-inline">
+				<label>Periode dari</label>&nbsp;&nbsp;
+				
+				
+				<input type="date" name="txtTanggalDari" id="txtTanggalDari" class="form-control" style="width:30%;">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+				<label>Sampai</label>&nbsp;&nbsp;  
+				<input type="date" name="txtTanggalSampai" id="txtTanggalSampai" class="form-control" style="width:30%;">
+						&nbsp;&nbsp;	<button class="btn btn-lg btn-secondary "  name="btnSearch"><i class="fa fa-search"></i> </button>
+			     </form>
+				</div>
+				
+				<div class="col-sm-1">
+				
+				</div>
+				<div class="col-sm-3">
+				<?php	if( isset($_POST['btnSearch']) ):?>
+					<a href="simpan-print-barang.php?dari=<?php echo $_POST['txtTanggalDari']?>&sampai=<?php echo $_POST['txtTanggalSampai']?>" class="btn btn-primary " style="margin-bottom:30px;margin-top:30px;"><i class="fa fa-print"></i> Simpan</a>
+			
+			<?php endif; ?>
+					
+					<?php	if( !isset($_POST['btnSearch']) ):?>
+					<a href="simpan-print-barang.php" class="btn btn-primary " style="margin-bottom:30px;margin-top:30px;"><i class="fa fa-print"></i> Simpan</a>
+					<?php endif; ?>&nbsp;
+		&nbsp;
+			<?php	if( isset($_POST['btnSearch']) ):?>
+					<a href="print-barang.php?dari=<?php echo $_POST['txtTanggalDari']?>&sampai=<?php echo $_POST['txtTanggalSampai']?>" class="btn btn-info " style="margin-bottom:30px;margin-top:30px;"><i class="fa fa-print"></i> Cetak</a>
+			
+			<?php endif; ?>
+					
+					<?php	if( !isset($_POST['btnSearch']) ):?>
+					<a href="print-barang.php" class="btn btn-info " style="margin-bottom:30px;margin-top:30px;"><i class="fa fa-print"></i> Cetak</a>
+					<?php endif; ?>
+				</div>
+				</div>
 				<div class="table-responsive">
 					<table class="table text-center">
 					  <thead>
@@ -100,7 +147,7 @@
 					      <th scope="col">Kategori Barang</th>
 					      <th scope="col">Divisi</th>
 					      <th scope="col">Tanggal Masuk</th>
-					      <th scope="col">Aksi</th>
+
 					    </tr>
 					  </thead>
 					  <tbody>
@@ -113,8 +160,7 @@
 						      <td><?php echo $hasil[$i]['NamaKategori']; ?></td>
 						      <td><?php echo $hasil[$i]['NamaDivisi']; ?></td>
 						      <td><?php echo $hasil[$i]['TglMasuk']; ?></td>
-						      <td><a href="edit.php?id=<?php echo $hasil[$i]['IdBarang']; ?>" class="btn btn-success btn-sm">Edit</a> | <a onclick="return confirm('Apakah Yakin Ingin Menghapus?')" class="btn btn-Danger btn-sm" href="hapus.php?id=<?php echo $hasil[$i]['IdBarang']; ?>">Hapus</a></td>
-					    	</tr>
+						      	</tr>
 					    <?php endfor; ?>
 					  </tbody>
 					</table>
