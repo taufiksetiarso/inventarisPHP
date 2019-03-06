@@ -9,12 +9,28 @@
 	}
 	
 	if( isset($_POST['btnSubmit']) ){
-		if( tambahMutasiBarang($_POST['idBarang'],$_POST['ddlDivisi'],$_POST['txtStatusBaru'],$_POST['txtjumlahBarang'],$_POST['txtKeterangan'],$_POST['txtTanggalMutasi']) ){
-			echo "<script>alert('Berhasil Menambahkan Mutasi Barang!!!'); location = '/inventarisEdu/inventaris/data-mutasi-barang.php';</script>";
-			
+		 
+		 $d=$_GET['name'];
+		 $ans=$d-$_POST['txtjumlahBarang'];
+		
+		if($ans>0){
+	
+			if( tambahMutasiBarang($_POST['idBarang'],$_POST['ddlDivisi'],$_POST['txtStatusBaru'],$_POST['txtjumlahBarang'],$_POST['txtKeterangan'],$_POST['txtTanggalMutasi']) ){
+				
+				$idbrg=$_POST['idBarang'];
+				$query = "UPDATE `barang` SET `JumlahBarang` = '$ans' WHERE `barang`.`IdBarang` = $idbrg";
+				mysqli_query($con,$query);
+				echo "<script>alert('Berhasil Menambahkan Mutasi Barang $ans!!!');location = '/inventarisEdu/inventaris/data-mutasi-barang.php';</script>";	
+				
+			}
+
+			else{
+				echo "<script>alert('Gagal Menambahkan Mutasi Barang!!!')</script>";
+			}
+		 
 		}
 		else{
-			echo "<script>alert('Gagal Menambahkan Mutasi Barang!!!')</script>";
+				echo "<script>alert('Stock anda tidak cukup!!!')</script>";
 		}
 	}
 	
@@ -48,16 +64,7 @@
 			        </div>
 		      </li>
 			</ul>
-			<ul class="navbar-nav">
-				<li class="nav-item dropdown">
-			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			          Pengguna
-			        </a>
-			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			        	<a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i> Log Out</a>
-			          <a class="dropdown-item" href="ubah_password.php"><i class="fa fa-lock"></i> Ubah Password</a>
-			        </div>
-		      </li>
+			
 			   <ul class="navbar-nav">
 				<li class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -93,6 +100,16 @@
 			        </div>
 		      </li>
 			</ul>
+			<ul class="navbar-nav">
+				<li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          Pengguna
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			        	<a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i> Log Out</a>
+			          <a class="dropdown-item" href="ubah_password.php"><i class="fa fa-lock"></i> Ubah Password</a>
+			        </div>
+		      </li>
 				<div class="pull-right" style="padding-left:500px;padding-top:15px"> <span class="badge badge-primary"><font size="3" color="white">hai, <?php echo $_SESSION['username'];?></font></span></div>
 		</div>
 	</nav>
@@ -167,8 +184,9 @@
 						
 					</div>
 						<div class="form-group">
+						
 							<label for="txtJmlBarang">Sisa Barang :</label>
-							<input type="text" name="txtsisaBarang" id="txtsisaBarang" class="form-control" disabled>
+							<input type="text" name="txtsisaBarang" id="txtsisaBarang"  class="form-control" disabled>
 						</div>
 						<div class="form-group">
 							<label for="txtTanggalMasuk">Status Barang :</label>
@@ -181,14 +199,42 @@
 							<a href="index.php" class="btn btn-secondary btn-block"><i class="fa fa-arrow-left"></i> Kembali</a>
 						</div>
 						<div class="col-md-3">
-							<button type="submit" name="btnSubmit" id="simpanDivisi" class="btn btn-success btn-block"><i class="fa fa-save"></i> Simpan</button>
+							<button type="submit" name="btnSubmit" id="btnSubmit" class="btn btn-success btn-block"><i class="fa fa-save"></i> Simpan</button>
 						</div>
 					</div>
 					</div>
 				</form>
+			
+
 			</div>
 		</div>
 
+		<!--modal-->
+		<div class="modal" id="TmbhDivisiModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Tambah Divisi</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<form action="" method="post">
+		        <div class="form-group">
+							<label for="txtNamaDivisi">Nama Divisi:</label>
+							<input type="text" name="txtNamaDivisi" id="txtNamaDivisi" class="form-control">
+				</div>
+				</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" data-dismiss="modal" class="btn btn-primary" id="aaa">Simpan</button>
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
 		
 	<script type="text/javascript" src="boostrap/popper.js/1.14.0/umd/popper.min.js"></script>
 	<script type="text/javascript" src="boostrap/jquery/jquery-3.2.1.slim.min.js"></script>
@@ -201,6 +247,7 @@
     function changeValue(idBarang){  
     document.getElementById('txtlokasiAwal').value = dtMhs[idBarang].namaDivisi;  
     document.getElementById('txtsisaBarang').value = dtMhs[idBarang].jumlahBarang;
+	 window.history.replaceState(null, null, "/inventarisEdu/inventaris/tambah-mutasi-barang.php?name="+dtMhs[idBarang].jumlahBarang); 
     }  
  
 		$(document).ready(function(){
@@ -212,12 +259,14 @@
 			var loadMerk = function(){
 				$('#ddlBarang').load('loadBarangItem.php');
 			}
-
+			
 			
 
 			loadKategori();
 			loadMerk();
-			loadDivisi();
+			
+			
+			
 			$('#simpanKategori').click(function(){
 				$.ajax({url:'tambah_kategori.php?value='+$('#txtNamaKtgri').val()}).done(function(){
 					loadKategori();
@@ -232,7 +281,8 @@
 
 			$('#aaa').click(function(){
 				$.ajax({url:'tambah_divisi.php?value='+$('#txtNamaDivisi').val()}).done(function(){
-					loadDivisi();
+					window.location.reload(true);
+					
 				});
 			});
 		});

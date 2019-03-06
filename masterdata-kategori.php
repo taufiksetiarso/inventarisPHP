@@ -40,16 +40,7 @@
 			        </div>
 		      </li>
 			</ul>
-			<ul class="navbar-nav">
-				<li class="nav-item dropdown">
-			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			          Pengguna
-			        </a>
-			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			        	<a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i> Log Out</a>
-			          <a class="dropdown-item" href="ubah_password.php"><i class="fa fa-lock"></i> Ubah Password</a>
-			        </div>
-		      </li>
+			
 			   <ul class="navbar-nav">
 				<li class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -85,6 +76,16 @@
 			        </div>
 		      </li>
 			</ul>
+			<ul class="navbar-nav">
+				<li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          Pengguna
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			        	<a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i> Log Out</a>
+			          <a class="dropdown-item" href="ubah_password.php"><i class="fa fa-lock"></i> Ubah Password</a>
+			        </div>
+		      </li>
 				<div class="pull-right" style="padding-left:500px;padding-top:15px"> <span class="badge badge-primary"><font size="3" color="white">hai, <?php echo $_SESSION['username'];?></font></span></div>
 		</div>
 	</nav>
@@ -180,8 +181,10 @@
 			
 			$('#simpanKategori').click(function(){
 				$.ajax({url:'tambah_kategori.php?value='+$('#txtNamaKtgri').val()}).done(function(){
+					window.location.reload(true);
 					loadKategori();
 				});
+				
 			});
 
 			

@@ -46,7 +46,7 @@
 					      <th scope="col">Lokasi Baru</th>
 					      <th scope="col">Status Barang</th>
 					      <th scope="col">Jumlah Barang</th>
-					      <th scope="col">Sisa Barang</th>
+					      
 					      <th scope="col">Keterangan</th>
 						  <th scope="col">Tanggal Mutasi</th>
 
@@ -61,7 +61,7 @@
 						      <td><?php echo $hasil[$i]['divisiBaru'];  ?></td>
 						      <td><?php echo $hasil[$i]['statusBarang']; ?></td>
 						      <td><?php echo $hasil[$i]['JumlahMutasiBarang']; ?></td>
-						      <td><?php echo $hasil[$i]['JumlahBarang']; ?></td>
+						    
 							  <td><?php echo $hasil[$i]['Keterangan']; ?></td>
 						      <td><?php echo $hasil[$i]['TanggalMutasi']; ?></td>
 						      	</tr>

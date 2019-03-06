@@ -45,16 +45,7 @@
 			        </div>
 		      </li>
 			</ul>
-			<ul class="navbar-nav">
-				<li class="nav-item dropdown">
-			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			          Pengguna
-			        </a>
-			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			        	<a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i> Log Out</a>
-			          <a class="dropdown-item" href="ubah_password.php"><i class="fa fa-lock"></i> Ubah Password</a>
-			        </div>
-		      </li>
+			
 			   <ul class="navbar-nav">
 				<li class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -90,6 +81,16 @@
 			        </div>
 		      </li>
 			</ul>
+			<ul class="navbar-nav">
+				<li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          Pengguna
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			        	<a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i> Log Out</a>
+			          <a class="dropdown-item" href="ubah_password.php"><i class="fa fa-lock"></i> Ubah Password</a>
+			        </div>
+		      </li>
 				<div class="pull-right" style="padding-left:500px;padding-top:15px"> <span class="badge badge-primary"><font size="3" color="white">hai, <?php echo $_SESSION['username'];?></font></span></div>
 		</div>
 	</nav>
@@ -145,7 +146,7 @@
 					      <th scope="col">Lokasi Baru</th>
 					      <th scope="col">Status Barang</th>
 					      <th scope="col">Jumlah Barang</th>
-					      <th scope="col">Sisa Barang</th>
+					     
 					      <th scope="col">Keterangan</th>
 						  <th scope="col">Tanggal Mutasi</th>
 						
@@ -160,7 +161,7 @@
 						      <td><?php echo $hasil[$i]['divisiBaru'];  ?></td>
 						      <td><?php echo $hasil[$i]['statusBarang']; ?></td>
 						      <td><?php echo $hasil[$i]['JumlahMutasiBarang']; ?></td>
-						      <td><?php echo $hasil[$i]['JumlahBarang']; ?></td>
+						      
 							  <td><?php echo $hasil[$i]['Keterangan']; ?></td>
 						      <td><?php echo $hasil[$i]['TanggalMutasi']; ?></td>
 						     	</tr>

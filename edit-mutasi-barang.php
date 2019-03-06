@@ -9,16 +9,30 @@
 		exit;
 	}
 	$hasil2=loadDataMutasiBarangId($_GET['editMutasiBarang']);
+	
 	if( isset($_POST['btnSubmit']) ){
+		
+		 $d=$hasil2[0]['JumlahBarang'];
+		 $ans=$d-$_POST['txtjumlahBarang']+$hasil2[0]['JumlahMutasiBarang'];
+		 
+	if($ans>0){
+		
 		if( updateMutasiBarang($_GET['editMutasiBarang'],$_POST['idBarang'],$_POST['ddlDivisi'],$_POST['txtStatusBaru'],$_POST['txtjumlahBarang'],$_POST['txtKeterangan'],$_POST['txtTanggalMutasi']) ){
-			echo "<script>alert('Berhasil Menambahkan Mutasi Barang!!!');location = '/inventarisEdu/inventaris/data-mutasi-barang.php';</script>";
-			
+				
+				$idbrg=$_POST['idBarang'];
+				$query = "UPDATE `barang` SET `JumlahBarang` = '$ans' WHERE `barang`.`IdBarang` = $idbrg";
+				mysqli_query($con,$query);
+				echo "<script>alert('Berhasil Menambahkan Mutasi Barang $ans!!!');location = '/inventarisEdu/inventaris/data-mutasi-barang.php';</script>";	
+				
 		}
 		else{
 			echo "<script>alert('Gagal Menambahkan Mutasi Barang!!!')</script>";
+			}
+		}
+		else{
+				echo "<script>alert('Stock anda tidak cukup!!!')</script>";
 		}
 	}
-	
 	
 
 ?>
@@ -49,16 +63,7 @@
 			        </div>
 		      </li>
 			</ul>
-			<ul class="navbar-nav">
-				<li class="nav-item dropdown">
-			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			          Pengguna
-			        </a>
-			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			        	<a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i> Log Out</a>
-			          <a class="dropdown-item" href="ubah_password.php"><i class="fa fa-lock"></i> Ubah Password</a>
-			        </div>
-		      </li>
+			
 			   <ul class="navbar-nav">
 				<li class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -94,13 +99,23 @@
 			        </div>
 		      </li>
 			</ul>
+			<ul class="navbar-nav">
+				<li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          Pengguna
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			        	<a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i> Log Out</a>
+			          <a class="dropdown-item" href="ubah_password.php"><i class="fa fa-lock"></i> Ubah Password</a>
+			        </div>
+		      </li>
 				<div class="pull-right" style="padding-left:500px;padding-top:15px"> <span class="badge badge-primary"><font size="3" color="white">hai, <?php echo $_SESSION['username'];?></font></span></div>
 		</div>
 	</nav>
 	<div class="container container-custom">
 		<div class="row">
 			<div class="col-md-12">
-				<h3>Form Mutasi Barang <?php echo $hasil2[0]['IdBarang']?></h3>
+				<h3>Form Mutasi Barang </h3>
 			</div>
 		</div>
 		<div class="row">
@@ -206,6 +221,7 @@
     function changeValue(idBarang){  
     document.getElementById('txtlokasiAwal').value = dtMhs[idBarang].namaDivisi;  
     document.getElementById('txtsisaBarang').value = dtMhs[idBarang].jumlahBarang;
+	 window.history.replaceState(null, null, "/inventarisEdu/inventaris/tambah-mutasi-barang.php?name="+dtMhs[idBarang].jumlahBarang); 
     }  
  
 		$(document).ready(function(){
